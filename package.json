@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "Boris Diakur <contact@borisdiakur.com>",
+  "contributors": [
+    "Boris Diakur <contact@borisdiakur.com> (https://github.com/borisdiakur)",
+    "Terpret <interpret@gmx.net> (https://github.com/terpret)"
+  ],
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
