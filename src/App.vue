@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Home from './components/Home'
-import Playground from './components/Playground'
-import Highscore from './components/Highscore'
+import Home from './components/home/Home'
+import Playground from './components/playground/Playground'
+import Highscore from './components/highscore/Highscore'
 
 export default {
   name: 'app',

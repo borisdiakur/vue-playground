@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Highscore from 'src/components/Highscore'
+import Highscore from 'src/components/highscore/Highscore'
 
 describe('Highscore.vue', () => {
   it('should render correct contents', () => {
