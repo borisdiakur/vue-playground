@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr v-for="(item, index) in items">
-        <td>{{ index }}</td>
+        <td>{{ index + 1 }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.score }}</td>
       </tr>
