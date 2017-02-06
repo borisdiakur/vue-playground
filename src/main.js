@@ -11,7 +11,7 @@ import Highscore from './components/highscore/Highscore'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/playground', component: Playground },
+  { path: '/play', component: Playground },
   { path: '/highscore', component: Highscore }
 ]
 
