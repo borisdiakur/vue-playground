@@ -1,5 +1,8 @@
 <template>
   <div class="playground">
+    <h1>Playground</h1>
+    <grid></grid>
+    <info></info>
   </div>
 </template>
 

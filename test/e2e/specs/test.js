@@ -30,6 +30,7 @@ module.exports = {
       // Highscore view on /highscore
       .url(devServer + '/playground')
       .assert.elementPresent('.playground')
+      .assert.containsText('h1', 'Playground')
       .end()
   }
 }
