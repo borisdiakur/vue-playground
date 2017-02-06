@@ -28,7 +28,7 @@ module.exports = {
       .assert.containsText('h1', 'Highscore')
 
       // Highscore view on /highscore
-      .url(devServer + '/playground')
+      .url(devServer + '/play')
       .assert.elementPresent('.playground')
       .assert.containsText('h1', 'Playground')
       .end()
