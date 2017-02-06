@@ -8,11 +8,21 @@ module.exports = {
     // see nightwatch.conf.js
     const devServer = browser.globals.devServerURL
 
+    // Welcome view on /
     browser
       .url(devServer)
       .waitForElementVisible('#app', 5000)
       .assert.elementPresent('.home')
       .assert.containsText('h1', 'Welcome to our Awesome Multiplayer Tetris Game')
+
+      // Highscore view on /highscore
+      .url(devServer + '/highscore')
+      .assert.elementPresent('.highscore')
+      .assert.containsText('h1', 'Highscore')
+
+      // Highscore view on /highscore
+      .url(devServer + '/playground')
+      .assert.elementPresent('.playground')
       .end()
   }
 }
