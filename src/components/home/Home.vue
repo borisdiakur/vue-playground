@@ -2,8 +2,8 @@
   <div class="home">
     <h1>Welcome to our Awesome Multiplayer Tetris Game</h1>
     <ul>
-      <li><a href="/play">New Game</a></li>
-      <li><a href="/highscore">Highscore</a></li>
+      <li><router-link to="/play">New Game</router-link></li>
+      <li><router-link to="/highscore">Highscore</router-link></li>
     </ul>
   </div>
 </template>
