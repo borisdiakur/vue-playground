@@ -1,16 +1,12 @@
 <template>
-  <div class="home">
-    <h1>Welcome to our Awesome Multiplayer Tetris Game</h1>
-    <ul>
-      <li><a href="/play">New Game</a></li>
-      <li><a href="/highscore">Highscore</a></li>
-    </ul>
+  <div class="grid">
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'grid'
 }
 </script>
 
