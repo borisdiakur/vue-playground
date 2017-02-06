@@ -25,3 +25,7 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Misc
+
+If your selenium server didn’t shutdown: http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer
