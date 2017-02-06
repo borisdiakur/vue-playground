@@ -15,6 +15,13 @@ module.exports = {
       .assert.elementPresent('.home')
       .assert.containsText('h1', 'Welcome to our Awesome Multiplayer Tetris Game')
 
+      // Navigating via buttons
+      .click('#link-play')
+      .assert.urlEquals(devServer + '/play')
+      .url(devServer)
+      .click('#link-highscore')
+      .assert.urlEquals(devServer + '/highscore')
+
       // Highscore view on /highscore
       .url(devServer + '/highscore')
       .assert.elementPresent('.highscore')
