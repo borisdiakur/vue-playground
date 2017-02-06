@@ -30,7 +30,7 @@ export default {
 //      return this.$store.state.grid
 //    }
 //  },
-  data: function dataFn () {
+  data () {
     return {
       grid: this.$store.state.grid
     }
