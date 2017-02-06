@@ -1,18 +1,11 @@
 <template>
-  <div class="playground">
+  <div class="info">
   </div>
 </template>
 
 <script>
-import Grid from './grid/Grid'
-import Info from './info/Info'
-
 export default {
-  name: 'playground',
-  components: {
-    Grid,
-    Info
-  }
+  name: 'info'
 }
 </script>
 
