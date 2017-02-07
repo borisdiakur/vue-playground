@@ -21,10 +21,12 @@ const getters = {
 }
 
 // mutations
+let tmp = true
 const mutations = {
   [types.STEP] (state) {
-    // TODO manipulate grid somehow...
-    state.grid = [[]]
+    // TODO manipulate grid...
+    state.rows[3].splice(5, 1, { tetriminoI: tmp })
+    tmp = !tmp
   }
 }
 

@@ -54,4 +54,26 @@ export default {
     height: 20px;
     border: solid 1px #ddd;
   }
+  .grid .cell.tetrimino-i {
+    background-color: maroon;
+  }
+  .grid .cell.tetrimino-j {
+    background-color: lightgray;
+  }
+  .grid .cell.tetrimino-l {
+    background-color: purple;
+  }
+  .grid .cell.tetrimino-o {
+    background-color: navy;
+  }
+  .grid .cell.tetrimino-s {
+    background-color: darkgreen;
+  }
+  .grid .cell.tetrimino-t {
+    background-color: brown;
+  }
+  .grid .cell.tetrimino-z {
+    background-color: teal;
+  }
+
 </style>

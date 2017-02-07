@@ -9,6 +9,9 @@
 <script>
 import Grid from './grid/Grid'
 import Info from './info/Info'
+import * as types from '../../store/mutation-types'
+
+let interval = null
 
 export default {
   name: 'playground',
@@ -18,7 +21,7 @@ export default {
   },
   created () {
     // resume game
-    this.$store.commit('RESUME')
+    this.$store.commit(types.RESUME)
   },
   computed: {
     paused () {
@@ -27,8 +30,16 @@ export default {
   },
   watch: {
     // watch playground paused property
-    paused: function (changed) {
-      console.log('paused changed', changed)
+    paused: function (isPaused) {
+      // if resumed, init new invervall, else clear intervall
+      if (isPaused) {
+        window.clearInterval(interval)
+        interval = null
+      } else if (interval === null) { // don’t create interval if it already exists
+        interval = window.setInterval(() => {
+          this.$store.commit(types.STEP)
+        }, 1000)
+      }
     }
   }
 }

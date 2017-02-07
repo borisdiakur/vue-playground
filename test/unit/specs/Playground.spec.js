@@ -3,14 +3,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import Playground from 'src/components/playground/Playground'
+import store from 'src/store'
 
-const store = new Vuex.Store({
-  state: {
-    grid: { rows: [[{}, {}], [{}, {}]] }
-  }
-})
-
-describe('Home.vue', () => {
+describe('Playground.vue', () => {
   it('should render correct contents', () => {
     const vm = new Vue({
       store,
