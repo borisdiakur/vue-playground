@@ -20,16 +20,9 @@ const getters = {
   grid: state => state.grid
 }
 
-// actions
-const actions = {
-  pause ({ commit, state }, payload) {
-    // commit(types.CHECKOUT_REQUEST)
-  }
-}
-
 // mutations
 const mutations = {
-  [types.TICK] (state) {
+  [types.STEP] (state) {
     // TODO manipulate grid somehow...
     state.grid = [[]]
   }
@@ -38,6 +31,5 @@ const mutations = {
 export default {
   state,
   getters,
-  actions,
   mutations
 }

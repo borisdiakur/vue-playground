@@ -15,6 +15,21 @@ export default {
   components: {
     Grid,
     Info
+  },
+  created () {
+    // resume game
+    this.$store.commit('RESUME')
+  },
+  computed: {
+    paused () {
+      return this.$store.state.playground.paused
+    }
+  },
+  watch: {
+    // watch playground paused property
+    paused: function (changed) {
+      console.log('paused changed', changed)
+    }
   }
 }
 </script>
