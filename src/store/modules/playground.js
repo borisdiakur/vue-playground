@@ -17,6 +17,9 @@ const mutations = {
   },
   [types.RESUME] (state) {
     state.paused = false
+  },
+  [types.STEP] (state) {
+    // TODO count steps, accelerate gameplay periodically
   }
 }
 

@@ -24,7 +24,12 @@ const getters = {
 let tmp = true
 const mutations = {
   [types.STEP] (state) {
-    // TODO manipulate grid...
+    // manipulate grid...
+    // TODO deactivate all active tetriminos, which cannot be moved down
+    // TODO if there is no active tetrimino, create one (and assign to player)
+    // TODO if there is an active tetrimino, move it one cell down
+    // TODO clear completed rows from bottom to top; move all inactive tetriminos above cleared row down; add points to score; repeat;
+
     state.rows[3].splice(5, 1, { tetriminoI: tmp })
     tmp = !tmp
   }
