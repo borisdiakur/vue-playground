@@ -1,7 +1,8 @@
+import * as types from '../mutation-types'
+
+// initialize empty grid (initial state)
 const GRID_HEIGHT = 20
 const GRID_WIDTH = 10
-
-// initialize empty grid
 const rows = []
 for (let i = GRID_HEIGHT; i--;) {
   const row = []
@@ -10,8 +11,33 @@ for (let i = GRID_HEIGHT; i--;) {
   }
   rows.push(row)
 }
-const grid = {
+const state = {
   rows
 }
 
-export default grid
+// getters
+const getters = {
+  grid: state => state.grid
+}
+
+// actions
+const actions = {
+  pause ({ commit, state }, payload) {
+    // commit(types.CHECKOUT_REQUEST)
+  }
+}
+
+// mutations
+const mutations = {
+  [types.TICK] (state) {
+    // TODO manipulate grid somehow...
+    state.grid = [[]]
+  }
+}
+
+export default {
+  state,
+  getters,
+  actions,
+  mutations
+}
