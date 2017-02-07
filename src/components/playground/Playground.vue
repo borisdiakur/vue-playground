@@ -21,7 +21,7 @@ export default {
   },
   created () {
     // resume game
-    this.$store.commit(types.RESUME)
+    setTimeout(() => this.$store.commit(types.RESUME), 2000)
   },
   computed: {
     paused () {
