@@ -31,14 +31,14 @@ export default {
   watch: {
     // watch playground paused property
     paused: function (isPaused) {
-      // if resumed, init new invervall, else clear intervall
+      // if resumed, init new inverval, else clear intervall
       if (isPaused) {
         window.clearInterval(interval)
         interval = null
       } else if (interval === null) { // don’t create interval if it already exists
         interval = window.setInterval(() => {
           this.$store.commit(types.STEP)
-        }, 1000)
+        }, this.$store.state.playground.speed)
       }
     }
   }
