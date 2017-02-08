@@ -24,6 +24,14 @@ module.exports = {
       }
     },
 
+    // chrome: {
+    //   desiredCapabilities: {
+    //     browserName: 'chrome',
+    //     javascriptEnabled: true,
+    //     acceptSslCerts: true
+    //   }
+    // }
+
     phantomjs: {
       desiredCapabilities: {
         browserName: 'phantomjs',

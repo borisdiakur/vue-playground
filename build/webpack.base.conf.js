@@ -11,9 +11,10 @@ var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
-  entry: {
-    app: './src/main.js'
-  },
+  entry: [
+    'babel-polyfill', // needed for e2e tests, otherwise nightwatch will hang in combination with phantomjs
+    './src/main.js'
+  ],
   output: {
     path: config.build.assetsRoot,
     publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
@@ -26,7 +27,8 @@ module.exports = {
       'vue$': 'vue/dist/vue.common.js',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'components': path.resolve(__dirname, '../src/components'),
+      'store': path.resolve(__dirname, '../src/store')
     }
   },
   resolveLoader: {

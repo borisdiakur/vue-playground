@@ -1,6 +1,6 @@
 <template>
   <div class="highscore">
-    <h1>Highscores</h1>
+    <h1>Highscore</h1>
     <p>{{data}}</p>
     <table id="hs-list">
       <thead>
