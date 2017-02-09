@@ -25,11 +25,6 @@
 <script>
 export default {
   name: 'grid',
-//  computed: {
-//    grid () {
-//      return this.$store.state.grid
-//    }
-//  },
   data () {
     return {
       grid: this.$store.state.grid

@@ -49,6 +49,28 @@ function hasTouchedDown (tetrimino, grid) {
   return false
 }
 
+function hasTouchedSide (tetrimino, grid, side) {
+  if (side !== 'left' && side !== 'right') {
+    throw new Error('missing valid parameter side')
+  }
+  const matrix = tetrimino.matrix
+  const s = side === 'left' ? -1 : 1
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i]
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j]
+      const cellOnSide = row[j + s]
+      if (cell === 1 && cellOnSide !== 1) {
+        const cellOnSideOnGrid = grid.rows[tetrimino.coordinates.y + i][tetrimino.coordinates.x + j + s]
+        if (!cellOnSideOnGrid || Object.keys(cellOnSideOnGrid).length) {
+          return true
+        }
+      }
+    }
+  }
+  return false
+}
+
 function markCells (tetrimino, grid) {
   const matrix = tetrimino.matrix
   for (let i = 0; i < matrix.length; i++) {
@@ -108,6 +130,40 @@ const actions = {
 
     // state[3].splice(5, 1, { tetriminoI: tmp })
     // tmp = !tmp
+  },
+  moveDown ({state}) {
+    for (const tetrimino of tetriminos) {
+      if (!hasTouchedDown(tetrimino, state)) {
+        unmarkCells(tetrimino, state)
+        tetrimino.moveDown()
+        markCells(tetrimino, state)
+      }
+    }
+  },
+  rotate ({state}) {
+    for (const tetrimino of tetriminos) {
+      unmarkCells(tetrimino, state)
+      tetrimino.rotate()
+      markCells(tetrimino, state)
+    }
+  },
+  moveLeft ({state}) {
+    for (const tetrimino of tetriminos) {
+      if (!hasTouchedSide(tetrimino, state, 'left')) {
+        unmarkCells(tetrimino, state)
+        tetrimino.coordinates.x = tetrimino.coordinates.x - 1
+        markCells(tetrimino, state)
+      }
+    }
+  },
+  moveRight ({state, commit, rootState}) {
+    for (const tetrimino of tetriminos) {
+      if (!hasTouchedSide(tetrimino, state, 'right')) {
+        unmarkCells(tetrimino, state)
+        tetrimino.coordinates.x = tetrimino.coordinates.x + 1
+        markCells(tetrimino, state)
+      }
+    }
   }
 }
 

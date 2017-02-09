@@ -3,12 +3,14 @@
     <h1>Playground</h1>
     <grid></grid>
     <info></info>
+    <controls></controls>
   </div>
 </template>
 
 <script>
 import Grid from './grid/Grid'
 import Info from './info/Info'
+import Controls from './controls/Controls'
 import * as types from '../../store/mutation-types'
 
 let interval = null
@@ -17,11 +19,17 @@ export default {
   name: 'playground',
   components: {
     Grid,
-    Info
+    Info,
+    Controls
   },
   created () {
     // resume game
-    setTimeout(() => this.$store.commit(types.RESUME), 2000)
+    setTimeout(() => this.$store.commit(types.RESUME), 0)
+  },
+  destroyed () {
+    // TODO: pause game
+    // TODO: display confirmation alert if game is still running
+    window.alert('bam')
   },
   computed: {
     paused () {
