@@ -198,4 +198,9 @@ Tetrimino.types = Object.freeze({
   Z: 'Z'
 })
 
+Tetrimino.getRandomType = () => {
+  const typeKeys = Object.keys(Tetrimino.types)
+  return Tetrimino.types[typeKeys[Math.floor(Math.random() * typeKeys.length)]]
+}
+
 export default Tetrimino

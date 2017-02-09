@@ -1,4 +1,3 @@
-// import * as types from '../../mutation-types'
 import Tetrimino from './tetrimino'
 
 // initialize empty grid (initial state)
@@ -31,9 +30,9 @@ function markCells (tetrimino, grid) {
     for (let j = 0; j < row.length; j++) {
       const cell = row[j]
       if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
-        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {
-          tetriminoI: true
-        })
+        const gridCell = {}
+        gridCell[`tetrimino${tetrimino.type}`] = true
+        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, gridCell)
       }
     }
   }
@@ -161,7 +160,33 @@ const actions = {
         markCells(tetrimino, state)
       }
     }
-    // TODO clear completed rows from bottom to top; move all inactive tetriminos above cleared row down; add points to score; repeat;
+
+    // clear completed rows, TODO: add points to score
+    for (const tetrimino of tetriminos) {
+      unmarkCells(tetrimino, state)
+    }
+    for (let i = 0; i < GRID_HEIGHT; i++) {
+      const row = state.rows[i]
+      let isCompleted = true
+      for (let j = GRID_WIDTH; j--;) {
+        const cell = row[j]
+        if (!Object.keys(cell).length) {
+          isCompleted = false
+          break
+        }
+      }
+      if (isCompleted) {
+        state.rows.splice(i, 1)
+        const row = []
+        for (let j = GRID_WIDTH; j--;) {
+          row.push({}) // cell
+        }
+        state.rows.splice(0, 0, row)
+      }
+    }
+    for (const tetrimino of tetriminos) {
+      markCells(tetrimino, state)
+    }
   },
   moveDown ({state}) {
     for (const tetrimino of tetriminos) {

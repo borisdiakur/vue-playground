@@ -1,11 +1,12 @@
 import * as types from '../../mutation-types'
+import Tetrimino from '../grid/tetrimino'
 
 // initial state
 const INITIAL_GAME_SPEED = 1000 // 1 step per 1s
 const state = {
   paused: true,
   speed: INITIAL_GAME_SPEED,
-  next: 'T' // TODO: randomize periodically
+  next: Tetrimino.getRandomType()
 }
 
 // getters
@@ -22,14 +23,19 @@ const mutations = {
   },
   [types.RESUME] (state) {
     state.paused = false
-  },
-  [types.STEP] (state) {
-    // TODO count steps, accelerate gameplay periodically
+  }
+}
+
+// actions
+const actions = {
+  step ({state}) {
+    state.next = Tetrimino.getRandomType()
   }
 }
 
 export default {
   state,
   getters,
-  mutations
+  mutations,
+  actions
 }
