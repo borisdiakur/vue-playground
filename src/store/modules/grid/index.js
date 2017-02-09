@@ -1,4 +1,4 @@
-import * as types from '../../mutation-types'
+// import * as types from '../../mutation-types'
 import Tetrimino from './tetrimino'
 
 // initialize empty grid (initial state)
@@ -38,53 +38,81 @@ function hasTouchedDown (tetrimino, grid) {
       if (cell === 1) {
         if (!rowBelow || rowBelow[j] !== 1) {
           // check on grid
-          if (state.grid[tetrimino.coordinates.y + i + 1][tetrimino.coordinates.x + j]) {
+          const gridRowBelow = grid.rows[tetrimino.coordinates.y + i + 1]
+          if (!gridRowBelow || Object.keys(gridRowBelow[tetrimino.coordinates.x + j]).length) {
             return true
           }
         }
       }
     }
-    return false
   }
+  return false
 }
 
 function markCells (tetrimino, grid) {
-  // TODO: implement markCells
+  const matrix = tetrimino.matrix
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i]
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j]
+      if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
+        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {
+          tetriminoI: true
+        })
+      }
+    }
+  }
 }
 
 function unmarkCells (tetrimino, grid) {
-  // TODO: implement unmarkCells
+  const matrix = tetrimino.matrix
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i]
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j]
+      if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
+        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {})
+      }
+    }
+  }
 }
 
-// mutations
-let tmp = true
-const mutations = {
-  [types.STEP] (state) {
-    // manipulate grid
-    // TODO deactivate all active tetriminos, which cannot be moved down
-    const actives = tetriminos.filter(t => t.active)
-    for (const tetrimino of actives) {
-      if (hasTouchedDown(tetrimino, state.grid)) {
+// let tmp = true
+
+// actions
+const actions = {
+  step ({state, commit, rootState}) {
+    // deactivate all active tetriminos, which cannot be moved down
+    for (let i = tetriminos.length; i--;) {
+      const tetrimino = tetriminos[i]
+      if (hasTouchedDown(tetrimino, state)) {
         // deactivate tetrimino
-        tetrimino.active = false
+        tetriminos.splice(i, 1)
       }
     }
 
-    // TODO if there is no active tetrimino, create one (assign it to a player) and update fields on the grid
-    if (!actives.length) {
-      const active = new Tetrimino(state.playground.next, {x: Math.floor(GRID_WIDTH / 2), y: 0})
+    // if there is no active tetrimino, create one (assign it to a player) and update fields on the grid
+    if (!tetriminos.length) {
+      const tetrimino = new Tetrimino(rootState.playground.next, {x: Math.floor(GRID_WIDTH / 2), y: 0})
+      tetriminos.push(tetrimino)
+      markCells(tetrimino, state)
+    } else {
+      // if there is an active tetrimino, move it one cell down and update fields on the grid
+      for (const tetrimino of tetriminos) {
+        unmarkCells(tetrimino, state)
+        tetrimino.moveDown()
+        markCells(tetrimino, state)
+      }
     }
-
-    // TODO if there is an active tetrimino, move it one cell down and update fields on the grid
     // TODO clear completed rows from bottom to top; move all inactive tetriminos above cleared row down; add points to score; repeat;
 
-    state.rows[3].splice(5, 1, { tetriminoI: tmp })
-    tmp = !tmp
+    // state[3].splice(5, 1, { tetriminoI: tmp })
+    // tmp = !tmp
   }
 }
 
 export default {
   state,
   getters,
-  mutations
+  actions
 }

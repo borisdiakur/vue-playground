@@ -165,7 +165,6 @@ class Tetrimino {
     this.type = type
     this[`tetrimino${type}`] = true
     this.rotationIndex = 0
-    this.active = true
     this.coordinates = coordinates
   }
 
@@ -178,6 +177,13 @@ class Tetrimino {
       this.rotationIndex = 0
     } else {
       this.rotationIndex++
+    }
+  }
+
+  moveDown () {
+    this.coordinates = {
+      x: this.coordinates.x,
+      y: this.coordinates.y + 1
     }
   }
 }

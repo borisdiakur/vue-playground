@@ -37,7 +37,7 @@ export default {
         interval = null
       } else if (interval === null) { // don’t create interval if it already exists
         interval = window.setInterval(() => {
-          this.$store.commit(types.STEP)
+          this.$store.dispatch('step')
         }, this.$store.state.playground.speed)
       }
     }
