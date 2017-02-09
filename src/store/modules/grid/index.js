@@ -24,6 +24,34 @@ const getters = {
   grid: state => state.grid
 }
 
+function markCells (tetrimino, grid) {
+  const matrix = tetrimino.matrix
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i]
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j]
+      if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
+        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {
+          tetriminoI: true
+        })
+      }
+    }
+  }
+}
+
+function unmarkCells (tetrimino, grid) {
+  const matrix = tetrimino.matrix
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i]
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j]
+      if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
+        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {})
+      }
+    }
+  }
+}
+
 function hasTouchedDown (tetrimino, grid) {
   // Algorithm: Iterate over the cells of the tetrimino matrix.
   // If there’s a 1, check if there is a 1 one row below in the tetrimino; if yes, continue;
@@ -71,35 +99,42 @@ function hasTouchedSide (tetrimino, grid, side) {
   return false
 }
 
-function markCells (tetrimino, grid) {
-  const matrix = tetrimino.matrix
+function isRotatable (tetrimino, grid) {
+  // Algorithm: Copy tetrimino, copy grid and unmark tetrimino on copied grid,
+  // try to perform rotation, “kick wall” if necessary, rotate, check if it would collide.
+  const tetriminoCopy = new Tetrimino(tetrimino.type, JSON.parse(JSON.stringify(tetrimino.coordinates)))
+  tetriminoCopy.rotationIndex = tetrimino.rotationIndex
+  const gridCopy = {rows: JSON.parse(JSON.stringify(grid.rows))}
+  unmarkCells(tetriminoCopy, gridCopy)
+  let matrix = tetriminoCopy.matrix
+  if (tetriminoCopy.coordinates.x < 0) {
+    // kick left wall
+    tetriminoCopy.coordinates.x = 0
+  } else if (tetriminoCopy.coordinates.x + matrix.length >= GRID_WIDTH) {
+    // kick right wall
+    tetriminoCopy.coordinates.x = GRID_WIDTH - matrix.length
+  }
+  tetriminoCopy.rotate()
+  matrix = tetriminoCopy.matrix
   for (let i = 0; i < matrix.length; i++) {
     const row = matrix[i]
     for (let j = 0; j < row.length; j++) {
       const cell = row[j]
-      if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
-        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {
-          tetriminoI: true
-        })
+      if (cell === 1) {
+        // check on grid
+        const gridRow = gridCopy.rows[tetriminoCopy.coordinates.y + i]
+        if (!gridRow) {
+          return false
+        }
+        const gridCell = gridRow[tetriminoCopy.coordinates.x + j]
+        if (!gridCell || Object.keys(gridCell).length) {
+          return false
+        }
       }
     }
   }
+  return true
 }
-
-function unmarkCells (tetrimino, grid) {
-  const matrix = tetrimino.matrix
-  for (let i = 0; i < matrix.length; i++) {
-    const row = matrix[i]
-    for (let j = 0; j < row.length; j++) {
-      const cell = row[j]
-      if (cell === 1 && grid.rows[tetrimino.coordinates.y + i]) {
-        grid.rows[tetrimino.coordinates.y + i].splice(tetrimino.coordinates.x + j, 1, {})
-      }
-    }
-  }
-}
-
-// let tmp = true
 
 // actions
 const actions = {
@@ -127,9 +162,6 @@ const actions = {
       }
     }
     // TODO clear completed rows from bottom to top; move all inactive tetriminos above cleared row down; add points to score; repeat;
-
-    // state[3].splice(5, 1, { tetriminoI: tmp })
-    // tmp = !tmp
   },
   moveDown ({state}) {
     for (const tetrimino of tetriminos) {
@@ -142,9 +174,18 @@ const actions = {
   },
   rotate ({state}) {
     for (const tetrimino of tetriminos) {
-      unmarkCells(tetrimino, state)
-      tetrimino.rotate()
-      markCells(tetrimino, state)
+      if (isRotatable(tetrimino, state)) {
+        unmarkCells(tetrimino, state)
+        if (tetrimino.coordinates.x < 0) {
+          // kick left wall
+          tetrimino.coordinates.x = 0
+        } else if (tetrimino.coordinates.x + tetrimino.matrix.length >= GRID_WIDTH) {
+          // kick right wall
+          tetrimino.coordinates.x = GRID_WIDTH - tetrimino.matrix.length
+        }
+        tetrimino.rotate()
+        markCells(tetrimino, state)
+      }
     }
   },
   moveLeft ({state}) {
