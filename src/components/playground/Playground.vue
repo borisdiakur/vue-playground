@@ -3,44 +3,38 @@
     <h1>Playground</h1>
     <grid></grid>
     <info></info>
+    <controls></controls>
   </div>
 </template>
 
 <script>
 import Grid from './grid/Grid'
 import Info from './info/Info'
-import * as types from '../../store/mutation-types'
+import Controls from './controls/Controls'
+import store from 'store'
+import * as types from 'store/mutation-types'
 
-let interval = null
+function step () {
+  if (store.state.playground.paused) {
+    return
+  }
+  store.dispatch('step')
+  setTimeout(step, store.state.playground.speed)
+}
 
 export default {
   name: 'playground',
   components: {
     Grid,
-    Info
+    Info,
+    Controls
   },
   created () {
-    // resume game
-    setTimeout(() => this.$store.commit(types.RESUME), 2000)
+    this.$store.commit(types.RESUME)
+    step()
   },
-  computed: {
-    paused () {
-      return this.$store.state.playground.paused
-    }
-  },
-  watch: {
-    // watch playground paused property
-    paused: function (isPaused) {
-      // if resumed, init new invervall, else clear intervall
-      if (isPaused) {
-        window.clearInterval(interval)
-        interval = null
-      } else if (interval === null) { // don’t create interval if it already exists
-        interval = window.setInterval(() => {
-          this.$store.commit(types.STEP)
-        }, 1000)
-      }
-    }
+  destroyed () {
+    this.$store.commit(types.PAUSE)
   }
 }
 </script>

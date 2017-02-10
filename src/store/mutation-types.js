@@ -1,3 +1,5 @@
 export const STEP = 'STEP'
 export const PAUSE = 'PAUSE'
 export const RESUME = 'RESUME'
+export const END = 'END'
+export const SCORE = 'SCORE'

@@ -25,11 +25,6 @@
 <script>
 export default {
   name: 'grid',
-//  computed: {
-//    grid () {
-//      return this.$store.state.grid
-//    }
-//  },
   data () {
     return {
       grid: this.$store.state.grid
@@ -39,7 +34,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+  .grid {
+    display: inline-block;
+    vertical-align: top;
+  }
   .grid ul {
     list-style: none;
     padding: 0;
