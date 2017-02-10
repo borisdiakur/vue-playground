@@ -1,5 +1,6 @@
 <template>
   <div class="info">
+    <display></display>
     <next></next>
   </div>
 </template>

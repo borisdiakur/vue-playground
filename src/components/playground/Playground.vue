@@ -11,7 +11,7 @@
 import Grid from './grid/Grid'
 import Info from './info/Info'
 import Controls from './controls/Controls'
-import * as types from '../../store/mutation-types'
+import * as types from 'store/mutation-types'
 
 let interval = null
 

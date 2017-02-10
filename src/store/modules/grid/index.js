@@ -1,4 +1,5 @@
 import Tetrimino from './tetrimino'
+import * as types from 'store/mutation-types'
 import store from 'store'
 
 // initialize empty grid (initial state)
@@ -167,6 +168,7 @@ const actions = {
     for (const tetrimino of tetriminos) {
       unmarkCells(tetrimino, state)
     }
+    let totalCompleted = 0
     for (let i = 0; i < GRID_HEIGHT; i++) {
       const row = state.rows[i]
       let isCompleted = true
@@ -178,6 +180,7 @@ const actions = {
         }
       }
       if (isCompleted) {
+        totalCompleted++
         state.rows.splice(i, 1)
         const row = []
         for (let j = GRID_WIDTH; j--;) {
@@ -188,6 +191,21 @@ const actions = {
     }
     for (const tetrimino of tetriminos) {
       markCells(tetrimino, state)
+    }
+    const level = store.state.playground.level
+    switch (totalCompleted) {
+      case 1:
+        store.commit(types.SCORE, 40 * level)
+        break
+      case 2:
+        store.commit(types.SCORE, 100 * level)
+        break
+      case 3:
+        store.commit(types.SCORE, 300 * level)
+        break
+      case 4:
+        store.commit(types.SCORE, 1200 * level)
+        break
     }
   },
   moveDown ({state}) {
