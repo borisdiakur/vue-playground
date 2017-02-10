@@ -78,6 +78,21 @@ function hasTouchedDown (tetrimino, grid) {
   return false
 }
 
+function collides (tetrimino, grid) {
+  const matrix = tetrimino.matrix
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i]
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j]
+      const gridRow = grid.rows[tetrimino.coordinates.y + i]
+      if (cell === 1 && Object.keys(gridRow[tetrimino.coordinates.x + j]).length) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
 function hasTouchedSide (tetrimino, grid, side) {
   if (side !== 'left' && side !== 'right') {
     throw new Error('missing valid parameter side')
@@ -152,8 +167,14 @@ const actions = {
     // if there is no active tetrimino, create one (assign it to a player) and update fields on the grid
     if (!tetriminos.length) {
       const tetrimino = new Tetrimino(rootState.playground.next, {x: Math.floor(GRID_WIDTH / 2), y: 0})
+      tetrimino.coordinates.x -= Math.ceil(tetrimino.matrix.length / 2)
       store.dispatch('setNext')
       tetriminos.push(tetrimino)
+      if (collides(tetrimino, state)) {
+        store.commit(types.END)
+        window.alert(`Your score: ${rootState.playground.score}`)
+        return
+      }
       markCells(tetrimino, state)
     } else {
       // if there is an active tetrimino, move it one cell down and update fields on the grid
@@ -164,7 +185,7 @@ const actions = {
       }
     }
 
-    // clear completed rows, TODO: add points to score
+    // clear completed rows, add points to score
     for (const tetrimino of tetriminos) {
       unmarkCells(tetrimino, state)
     }

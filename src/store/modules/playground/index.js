@@ -6,6 +6,7 @@ const INITIAL_GAME_SPEED = 1000 // 1 step per 1s
 const state = {
   level: 1,
   score: 0,
+  upcomming: 500,
   paused: true,
   speed: INITIAL_GAME_SPEED,
   next: Tetrimino.getRandomType()
@@ -31,10 +32,16 @@ const mutations = {
   },
   [types.SCORE] (state, points) {
     state.score += points
-    // level-up each 10000 points
-    state.level = 1 + Math.floor(state.score / 10000)
-    // speed-up each level by 200ms
-    state.speed -= 200
+    // level-up
+    while (state.score >= (500 * Math.pow(2, state.level - 1))) {
+      state.level++
+      state.upcomming = (500 * Math.pow(2, state.level - 1))
+      // speed-up each level by 50ms
+      state.speed = Math.max(100, state.speed - 200)
+    }
+  },
+  [types.END] (state) {
+    state.paused = true
   }
 }
 

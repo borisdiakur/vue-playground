@@ -11,9 +11,16 @@
 import Grid from './grid/Grid'
 import Info from './info/Info'
 import Controls from './controls/Controls'
+import store from 'store'
 import * as types from 'store/mutation-types'
 
-let interval = null
+function step () {
+  if (store.state.playground.paused) {
+    return
+  }
+  store.dispatch('step')
+  setTimeout(step, store.state.playground.speed)
+}
 
 export default {
   name: 'playground',
@@ -23,32 +30,11 @@ export default {
     Controls
   },
   created () {
-    // resume game
-    setTimeout(() => this.$store.commit(types.RESUME), 0)
+    this.$store.commit(types.RESUME)
+    step()
   },
   destroyed () {
-    // TODO: pause game
-    // TODO: display confirmation alert if game is still running
-    window.alert('bam')
-  },
-  computed: {
-    paused () {
-      return this.$store.state.playground.paused
-    }
-  },
-  watch: {
-    // watch playground paused property
-    paused: function (isPaused) {
-      // if resumed, init new inverval, else clear intervall
-      if (isPaused) {
-        window.clearInterval(interval)
-        interval = null
-      } else if (interval === null) { // don’t create interval if it already exists
-        interval = window.setInterval(() => {
-          this.$store.dispatch('step')
-        }, this.$store.state.playground.speed)
-      }
-    }
+    this.$store.commit(types.PAUSE)
   }
 }
 </script>
