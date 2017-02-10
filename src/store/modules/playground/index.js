@@ -28,7 +28,7 @@ const mutations = {
 
 // actions
 const actions = {
-  step ({state}) {
+  setNext ({state}) {
     state.next = Tetrimino.getRandomType()
   }
 }

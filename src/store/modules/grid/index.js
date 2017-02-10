@@ -1,4 +1,5 @@
 import Tetrimino from './tetrimino'
+import store from 'store'
 
 // initialize empty grid (initial state)
 const GRID_HEIGHT = 20
@@ -150,6 +151,7 @@ const actions = {
     // if there is no active tetrimino, create one (assign it to a player) and update fields on the grid
     if (!tetriminos.length) {
       const tetrimino = new Tetrimino(rootState.playground.next, {x: Math.floor(GRID_WIDTH / 2), y: 0})
+      store.dispatch('setNext')
       tetriminos.push(tetrimino)
       markCells(tetrimino, state)
     } else {

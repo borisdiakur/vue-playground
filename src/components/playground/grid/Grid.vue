@@ -35,6 +35,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+  .grid {
+    display: inline-block;
+    vertical-align: top;
+  }
   .grid ul {
     list-style: none;
     padding: 0;

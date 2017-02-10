@@ -21,4 +21,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .info {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 20px;
+  }
 </style>
